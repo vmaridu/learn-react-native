@@ -1,0 +1,41 @@
+---
+description: React Native component conventions
+globs: ["**/*.tsx"]
+---
+
+# React Native component rules
+
+## Always
+- Every text string is inside `<Text>` — never render a bare string in a `<View>`
+- `{count > 0 && <X/>}` never `{count && <X/>}` (renders `0` → crash)
+- Be explicit with `flex-row` — `flexDirection` defaults to `column`
+- Wrap truncating text in `<View className="flex-1">` (`flexShrink` defaults to 0)
+- Interactive elements get `accessibilityRole` and `accessibilityLabel`
+- Touch targets ≥44pt — use `hitSlop` on small icon buttons
+- Handle safe areas with `useSafeAreaInsets()`
+- `keyboardShouldPersistTaps="handled"` on any ScrollView containing a form
+
+## Use / don't use
+| Use | Not |
+|---|---|
+| `Pressable` | `TouchableOpacity` |
+| `expo-image` | `Image` from react-native |
+| `FlashList` | `.map()` for data lists |
+| `active:` | `hover:` |
+| `gap-*` | `space-x-*` |
+| Reanimated worklets | JS-state-driven animation |
+
+## Lists
+- Memoize rows with `React.memo`
+- `useCallback` for `renderItem` and row callbacks — no inline arrows
+- `getItemType` when rows are heterogeneous
+- `recyclingKey` on images inside rows
+
+## Styling
+- Semantic tokens only — no hardcoded colors
+- Container styles and text styles are separate (no cascade in React Native)
+- Prefer borders over shadows for cross-platform consistency
+
+## Screens
+- Screens in `app/` are thin — compose hooks and components
+- Business logic goes in `src/features/*/utils.ts` so it's unit-testable
