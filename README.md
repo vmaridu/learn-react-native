@@ -81,8 +81,8 @@ experience — booking, dues, documents, violations, elections, inbox, directori
 document-grounded assistant — all against an in-memory fake backend. Sign in with
 `demo@hamlethq.app` / `hamlet2026`, or tap through as the demo resident.
 
-See [`mockup/README.md`](./mockup/README.md) for Android install instructions
-(Expo Go, an EAS-built `.apk`, or a local Gradle build).
+- [`mockup/README.md`](./mockup/README.md) — what it covers, how it is built, what is faked
+- [`mockup/ANDROID-BUILD.md`](./mockup/ANDROID-BUILD.md) — build and install an Android APK
 
 ---
 

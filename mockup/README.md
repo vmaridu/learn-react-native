@@ -30,6 +30,10 @@ Signing out resets the community to its seeded state.
 
 ## 📱 Getting it onto an Android phone
 
+> **Building an APK?** [`ANDROID-BUILD.md`](./ANDROID-BUILD.md) is the full, copy-paste
+> build guide — signing, versioning, Play Store bundles and a troubleshooting table.
+> What follows is the short version.
+
 Three routes, fastest first. **Option A needs nothing installed on your machine except
 Node.** Option B produces a real installable `.apk` in the cloud. Option C builds it
 locally and needs the Android SDK.
