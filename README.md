@@ -69,9 +69,20 @@ learn-react-native/
 ├── docs/                 # the curriculum — start here
 ├── apps/
 │   └── trailhead/        # the practice app (created in week 4)
+├── mockup/               # Hamlet HQ homeowner mockup — clickable, fake backend
 ├── CLAUDE.md             # project constitution for AI agents
 └── .cursor/rules/        # Cursor equivalents
 ```
+
+### The mockup
+
+[`mockup/`](./mockup/) is a runnable Expo app covering the Phase 1 **homeowner**
+experience — booking, dues, documents, violations, elections, inbox, directories and a
+document-grounded assistant — all against an in-memory fake backend. Sign in with
+`demo@hamlethq.app` / `hamlet2026`, or tap through as the demo resident.
+
+- [`mockup/README.md`](./mockup/README.md) — what it covers, how it is built, what is faked
+- [`mockup/ANDROID-BUILD.md`](./mockup/ANDROID-BUILD.md) — build and install an Android APK
 
 ---
 
