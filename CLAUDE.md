@@ -13,9 +13,14 @@ community platform). The curriculum lives in `/docs`.
 ```
 docs/              # curriculum — the spec for everything
 apps/trailhead/    # the practice app
+mockup/            # Hamlet HQ homeowner mockup — clickable, fake backend, no server
 ```
 
 Most work happens in `apps/trailhead/`. Docs are markdown only — no build step.
+
+`mockup/` is a self-contained Expo app that follows every convention below. It exists to
+show the Phase 1 **homeowner** experience end to end against an in-memory fake backend;
+it is not the product, and its auth and payment code is draft-only (see its README).
 
 ---
 
