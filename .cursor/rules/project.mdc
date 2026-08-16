@@ -1,0 +1,54 @@
+---
+description: Core project conventions for learn-react-native / Hamlet HQ
+alwaysApply: true
+---
+
+# Project rules
+
+`CLAUDE.md` at the repo root is the authoritative project constitution. Follow it.
+This file summarizes the rules that matter most in the editor.
+
+## Stack
+
+Expo SDK 57 · React Native 0.86 · React 19.2 · TypeScript strict
+Expo Router (typed routes) · **NativeWind 4.2 with Tailwind v3, NOT v4**
+React Native Reusables · TanStack Query · Zustand · React Hook Form + Zod
+FlashList v2 · Reanimated v4 · Supabase · Stripe
+
+## Hard rules
+
+1. Verify any package before suggesting it: `npm view <pkg> version time.modified`
+2. Expo packages install with `npx expo install`, never `pnpm add`
+3. Never edit `ios/` or `android/` — generated. Use config plugins.
+4. No hardcoded colors. Semantic tokens: `bg-background`, `text-foreground`, `border-border`
+5. Import `Text` from `~/components/ui/text`, never `react-native`
+6. All data-driven lists use FlashList, never `.map()` in a ScrollView
+7. Auth tokens in `expo-secure-store` only
+8. `{count > 0 && <X/>}` never `{count && <X/>}` — the latter renders `0` and crashes
+9. Money is integer cents, never floats
+10. No `any`, no `@ts-ignore` without an explanatory comment
+
+## Architecture
+
+- `app/` = routes only, thin screens, no business logic
+- `src/features/<name>/` = api · keys · hooks · schemas · types · utils · components
+- Components use hooks, never `api.ts` directly
+- `components/ui/` never imports from `features/`
+
+## Definition of done
+
+`pnpm verify` passes · works on iOS **and** Android · loading/empty/error states ·
+accessibility roles and labels · light and dark mode · safe areas.
+
+If you can't verify a platform, say so. Don't claim it works.
+
+## Ask first
+
+New dependency · new `components/ui/` component · schema change or migration ·
+anything touching payments, auth, or authorization · changes to `app.config.ts`.
+
+## High-stakes code
+
+Money, auth, RLS policies, migrations, permissions, native config: draft only, and
+flag clearly for line-by-line human review. Enumerate failure modes explicitly —
+concurrent access, partial failure, retry/double-submit, wrong user, malformed input.
