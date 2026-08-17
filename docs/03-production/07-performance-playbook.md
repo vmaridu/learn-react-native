@@ -430,4 +430,4 @@ BUDGET
 - [Flashlight](https://github.com/bamlab/flashlight)
 - [FlashList](https://shopify.github.io/flash-list/)
 
-**Next:** [AI workflow → The operating model](../04-ai-workflow/01-operating-model.md)
+**Next:** [Over-the-air updates →](./08-over-the-air-updates.md)

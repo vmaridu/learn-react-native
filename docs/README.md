@@ -95,6 +95,7 @@ The difference between "it works on my simulator" and "50,000 people depend on i
 | 5 | [Observability](./03-production/05-observability.md) | Sentry, analytics, crash-free rate, the metrics that matter |
 | 6 | [Security and privacy](./03-production/06-security-and-privacy.md) | Secrets, tokens, RLS, PII, app store privacy labels |
 | 7 | [Performance playbook](./03-production/07-performance-playbook.md) | Startup time, list jank, bundle size, memory |
+| 8 | [Over-the-air updates](./03-production/08-over-the-air-updates.md) | When updates actually apply, auto-update patterns, forced updates, rollback |
 
 ### 04 — AI-assisted development
 

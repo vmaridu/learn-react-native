@@ -278,6 +278,11 @@ git tag v1.2.0 && git push origin v1.2.0
 **The most useful feature for a solo founder.** Ship JS/asset changes without a store
 review.
 
+> This section covers the pipeline. For the runtime side — when a downloaded update
+> actually applies, how to update automatically, how to force one, and how to gate on a
+> minimum native version — see
+> **[Over-the-air updates](./08-over-the-air-updates.md)**.
+
 ```bash
 npx expo install expo-updates
 

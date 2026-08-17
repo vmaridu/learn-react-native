@@ -170,6 +170,12 @@ One catch: `runtimeVersion` uses the `appVersion` policy, so an update only reac
 builds with a matching `expo.version`. Bump `expo.version` and existing installs stop
 receiving updates until you ship them a new APK. Leave it alone while you are iterating.
 
+A second catch worth knowing before you rely on this: a published update is **downloaded**
+on the next cold start and **applied** on the one after that, so testers are always one
+launch behind unless you add code to check and reload.
+[Over-the-air updates](../docs/03-production/08-over-the-air-updates.md) covers that,
+plus how to force an update and how to gate on a minimum native version.
+
 ---
 
 ## Route 2 — Local Gradle build
