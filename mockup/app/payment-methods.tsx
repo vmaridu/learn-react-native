@@ -87,7 +87,7 @@ export default function PaymentMethodsScreen() {
                     <Ionicons
                       name={method.kind === 'card' ? 'card' : 'business'}
                       size={20}
-                      color={palette.primary}
+                      color={palette.brandInk}
                     />
                   </View>
                   <View className="flex-1">

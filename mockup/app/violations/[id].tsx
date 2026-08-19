@@ -1,6 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -27,7 +26,7 @@ import {
   type DisputeValues,
 } from '~/features/compliance';
 import { formatCents, formatDate } from '~/lib/format';
-import { palette, tileGradients } from '~/lib/theme';
+import { palette } from '~/lib/theme';
 
 export default function ViolationScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -155,13 +154,11 @@ export default function ViolationScreen() {
                   key={photo.id}
                   entering={FadeInDown.delay(index * 80).duration(340)}
                   className="w-[47%]">
-                  <LinearGradient
-                    colors={[tileGradients.outdoors![0], tileGradients.outdoors![1]]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
-                    className="h-28 items-center justify-center rounded-2xl">
-                    <Ionicons name="image-outline" size={26} color={palette.white} />
-                  </LinearGradient>
+                  <View
+                    style={{ height: 104, borderRadius: 18 }}
+                    className="items-center justify-center bg-muted">
+                    <Ionicons name="image-outline" size={24} color={palette.mutedForeground} />
+                  </View>
                   <Text variant="caption" tone="muted" className="mt-1.5" numberOfLines={1}>
                     {photo.caption}
                   </Text>

@@ -63,7 +63,7 @@ export default function ServiceRequestScreen() {
           entering={FadeInDown.delay(70).duration(360)}
           className="mt-5 flex-row items-center gap-3 rounded-3xl border border-border bg-card p-4">
           <View className="h-10 w-10 items-center justify-center rounded-2xl bg-primary-soft">
-            <Ionicons name="location-outline" size={18} color={palette.primary} />
+            <Ionicons name="location-outline" size={18} color={palette.brandInk} />
           </View>
           <View className="flex-1">
             <Text variant="caption" tone="muted">

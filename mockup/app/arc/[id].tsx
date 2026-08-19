@@ -69,7 +69,7 @@ export default function ArcRequestScreen() {
           className="mt-5 rounded-3xl border border-border bg-card p-4">
           <View className="flex-row items-center gap-3">
             <View className="h-10 w-10 items-center justify-center rounded-2xl bg-primary-soft">
-              <Ionicons name="construct-outline" size={18} color={palette.primary} />
+              <Ionicons name="construct-outline" size={18} color={palette.brandInk} />
             </View>
             <View className="flex-1">
               <Text variant="caption" tone="muted">
@@ -94,7 +94,7 @@ export default function ArcRequestScreen() {
                   className={`flex-row items-center gap-3 px-4 py-3.5 ${
                     index > 0 ? 'border-t border-border' : ''
                   }`}>
-                  <Ionicons name="document-attach-outline" size={18} color={palette.primary} />
+                  <Ionicons name="document-attach-outline" size={18} color={palette.brandInk} />
                   <Text variant="body" className="flex-1">
                     {attachment.name}
                   </Text>

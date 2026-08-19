@@ -84,7 +84,7 @@ export default function AssistantScreen() {
           {thread.length === 0 && (
             <Animated.View entering={FadeInDown.duration(380)}>
               <View className="h-14 w-14 items-center justify-center rounded-3xl bg-primary-soft">
-                <Ionicons name="sparkles" size={24} color={palette.primary} />
+                <Ionicons name="sparkles" size={24} color={palette.brandInk} />
               </View>
               <Text variant="title" className="mt-4">
                 Ask about your community
@@ -108,7 +108,7 @@ export default function AssistantScreen() {
                       scaleTo={0.98}
                       onPress={() => send(question)}
                       className="flex-row items-center gap-3 rounded-3xl border border-border bg-card px-4 py-3.5">
-                      <Ionicons name="help-circle-outline" size={18} color={palette.primary} />
+                      <Ionicons name="help-circle-outline" size={18} color={palette.brandInk} />
                       <Text variant="body" className="flex-1">
                         {question}
                       </Text>
@@ -162,7 +162,7 @@ export default function AssistantScreen() {
                             <Ionicons
                               name="document-text-outline"
                               size={13}
-                              color={palette.primary}
+                              color={palette.brandInk}
                             />
                             <Text variant="caption" tone="primary" className="font-semibold">
                               {citation.title} · {citation.locator}
@@ -204,7 +204,7 @@ export default function AssistantScreen() {
               className={`h-12 w-12 items-center justify-center rounded-full bg-primary ${
                 !draft.trim() || ask.isPending ? 'opacity-40' : ''
               }`}>
-              <Ionicons name="arrow-up" size={20} color={palette.white} />
+              <Ionicons name="arrow-up" size={20} color={palette.primaryForeground} />
             </PressableScale>
           </View>
           <Text variant="caption" tone="muted" className="mt-2 text-center">

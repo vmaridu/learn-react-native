@@ -112,7 +112,7 @@ export function SuccessOverlay({
             style={discStyle}
             className="h-24 w-24 items-center justify-center rounded-full bg-primary">
             <Animated.View style={checkStyle}>
-              <Ionicons name="checkmark" size={46} color={palette.white} />
+              <Ionicons name="checkmark" size={46} color={palette.primaryForeground} />
             </Animated.View>
           </Animated.View>
         </View>

@@ -189,7 +189,7 @@ export default function NewArcRequestScreen() {
                         className={`h-6 w-6 items-center justify-center rounded-lg border-2 ${
                           checked ? 'border-primary bg-primary' : 'border-border bg-background'
                         }`}>
-                        {checked && <Ionicons name="checkmark" size={14} color={palette.white} />}
+                        {checked && <Ionicons name="checkmark" size={14} color={palette.primaryForeground} />}
                       </View>
                       <Ionicons
                         name="document-attach-outline"

@@ -7,9 +7,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Screen, ScreenHeader } from '~/components/screen';
 import { Avatar } from '~/components/ui/avatar';
-import { Badge } from '~/components/ui/badge';
 import { EmptyState, ErrorState } from '~/components/ui/empty-state';
 import { SearchInput } from '~/components/ui/input';
+import { Separator } from '~/components/ui/separator';
 import { PressableScale } from '~/components/ui/pressable-scale';
 import { SkeletonList } from '~/components/ui/skeleton';
 import { Text } from '~/components/ui/text';
@@ -19,26 +19,20 @@ import { palette } from '~/lib/theme';
 
 function DirectoryRow({ entry }: { entry: DirectoryEntry }) {
   return (
-    <View className="mb-2.5 flex-row items-center gap-3.5 rounded-3xl border border-border bg-card p-4">
+    <View className="flex-row items-center gap-4 py-4">
       <Avatar name={entry.name} size="md" />
       <View className="flex-1">
         <Text variant="subheading" numberOfLines={1}>
           {entry.name}
         </Text>
-        <Text variant="caption" tone="muted" className="mt-0.5">
-          {entry.unit} · owner since {entry.memberSince.slice(0, 4)}
+        <Text variant="caption" tone="muted" className="mt-0.5" numberOfLines={1}>
+          {entry.unit}
+          {entry.interests.length > 0 ? ` · ${entry.interests.join(', ')}` : ''}
         </Text>
-        {entry.interests.length > 0 && (
-          <View className="mt-2 flex-row flex-wrap gap-1.5">
-            {entry.interests.map((interest) => (
-              <Badge key={interest} label={interest} tone="neutral" />
-            ))}
-          </View>
-        )}
       </View>
       <View className="items-end gap-1">
-        {!!entry.phone && <Ionicons name="call-outline" size={16} color={palette.primary} />}
-        {!!entry.email && <Ionicons name="mail-outline" size={16} color={palette.primary} />}
+        {!!entry.phone && <Ionicons name="call-outline" size={16} color={palette.brandInk} />}
+        {!!entry.email && <Ionicons name="mail-outline" size={16} color={palette.brandInk} />}
         {!entry.phone && !entry.email && (
           <Ionicons name="lock-closed-outline" size={16} color={palette.mutedForeground} />
         )}
@@ -86,7 +80,7 @@ export default function DirectoryScreen() {
         <Ionicons
           name={member.data?.directoryOptIn ? 'eye-outline' : 'eye-off-outline'}
           size={20}
-          color={palette.primary}
+          color={palette.brandInk}
         />
         <View className="flex-1">
           <Text variant="subheading">
@@ -126,6 +120,7 @@ export default function DirectoryScreen() {
             data={entries}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
+            ItemSeparatorComponent={Separator}
             contentContainerStyle={{
               paddingHorizontal: 20,
               paddingBottom: insets.bottom + 16,

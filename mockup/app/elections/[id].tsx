@@ -109,7 +109,7 @@ export default function ElectionScreen() {
           <Ionicons
             name={e.eligible ? 'shield-checkmark' : 'shield-outline'}
             size={20}
-            color={e.eligible ? palette.primary : palette.mutedForeground}
+            color={e.eligible ? palette.brandInk : palette.mutedForeground}
           />
           <View className="flex-1">
             <Text variant="subheading">
@@ -236,7 +236,7 @@ export default function ElectionScreen() {
                           className={`mt-0.5 h-6 w-6 items-center justify-center border-2 ${
                             e.seats === 1 ? 'rounded-full' : 'rounded-lg'
                           } ${active ? 'border-primary bg-primary' : 'border-border bg-background'}`}>
-                          {active && <Ionicons name="checkmark" size={14} color={palette.white} />}
+                          {active && <Ionicons name="checkmark" size={14} color={palette.primaryForeground} />}
                         </View>
                         <View className="flex-1">
                           <Text variant="subheading">{option.name}</Text>
@@ -291,7 +291,7 @@ export default function ElectionScreen() {
             const option = e.options.find((o) => o.id === optionId);
             return (
               <View key={optionId} className="flex-row items-center gap-2">
-                <Ionicons name="checkmark-circle" size={16} color={palette.primary} />
+                <Ionicons name="checkmark-circle" size={16} color={palette.brandInk} />
                 <Text variant="subheading" className="flex-1">
                   {option?.name}
                 </Text>

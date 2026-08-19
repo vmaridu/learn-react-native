@@ -1,9 +1,9 @@
 import { useRouter } from 'expo-router';
 import { ScrollView, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { NavRow } from '~/components/nav-row';
+import { useTabDockClearance } from '~/components/tab-bar';
 import { Screen, SectionHeader, TabHeader } from '~/components/screen';
 import { Avatar } from '~/components/ui/avatar';
 import { PressableScale } from '~/components/ui/pressable-scale';
@@ -17,7 +17,7 @@ import { community } from '~/mock/db';
 
 export default function MoreScreen() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const dockClearance = useTabDockClearance();
 
   const member = useMember();
   const documents = useDocuments();
@@ -38,7 +38,7 @@ export default function MoreScreen() {
     <Screen>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: insets.bottom + 28 }}>
+        contentContainerStyle={{ paddingBottom: dockClearance }}>
         <TabHeader title="More" subtitle={community.name} />
 
         {/* Profile card */}
@@ -65,7 +65,7 @@ export default function MoreScreen() {
         </Animated.View>
 
         {/* Community */}
-        <View className="pt-7">
+        <View className="pt-10">
           <SectionHeader title="Community" />
           <Animated.View
             entering={FadeInDown.delay(60).duration(340)}
@@ -104,7 +104,7 @@ export default function MoreScreen() {
         </View>
 
         {/* Your property */}
-        <View className="pt-7">
+        <View className="pt-10">
           <SectionHeader title="Your property" />
           <Animated.View
             entering={FadeInDown.delay(120).duration(340)}
@@ -137,7 +137,7 @@ export default function MoreScreen() {
         </View>
 
         {/* Help */}
-        <View className="pt-7">
+        <View className="pt-10">
           <SectionHeader title="Help" />
           <Animated.View
             entering={FadeInDown.delay(180).duration(340)}

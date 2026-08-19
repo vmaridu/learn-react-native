@@ -70,7 +70,7 @@ export default function ServicesScreen() {
                 {item.name}
               </Text>
               {item.verified && (
-                <Ionicons name="shield-checkmark" size={14} color={palette.primary} />
+                <Ionicons name="shield-checkmark" size={14} color={palette.brandInk} />
               )}
             </View>
             <Text variant="caption" tone="muted" className="mt-0.5">
@@ -93,7 +93,7 @@ export default function ServicesScreen() {
         </View>
 
         <View className="mt-3 flex-row items-center gap-1.5 border-t border-border pt-3">
-          <Ionicons name="call-outline" size={15} color={palette.primary} />
+          <Ionicons name="call-outline" size={15} color={palette.brandInk} />
           <Text variant="caption" tone="primary" className="font-semibold">
             {item.phone}
           </Text>

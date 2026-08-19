@@ -39,7 +39,7 @@ export function Input({
         className={cn(
           'flex-row items-center gap-2.5 rounded-2xl border bg-background px-4',
           props.multiline ? 'min-h-[110px] py-3' : 'h-13 py-0',
-          focused ? 'border-primary' : 'border-input',
+          focused ? 'border-accent-foreground' : 'border-input',
           error && 'border-destructive',
         )}
         style={props.multiline ? undefined : { height: 52 }}>
@@ -47,7 +47,7 @@ export function Input({
           <Ionicons
             name={icon}
             size={18}
-            color={focused ? palette.primary : palette.mutedForeground}
+            color={focused ? palette.brandInk : palette.mutedForeground}
           />
         )}
         <TextInput

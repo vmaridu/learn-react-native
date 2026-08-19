@@ -32,10 +32,8 @@ export function BrandMark({
           {/* Gable outline */}
           <Path d="M50 16 L86 46 L86 84 L14 84 L14 46 Z" fill={palette.white} />
           {/* Doorway, punched through to the lime behind */}
-          <Path
-            d="M40 84 L40 63 A10 10 0 0 1 60 63 L60 84 Z"
-            fill={palette.primary}
-          />
+          {/* Mid-gradient, so the doorway reads as a hole rather than a patch. */}
+          <Path d="M40 84 L40 63 A10 10 0 0 1 60 63 L60 84 Z" fill={brandGradient[1]} />
         </Svg>
       </View>
     </LinearGradient>

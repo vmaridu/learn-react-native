@@ -3,10 +3,10 @@ import { useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { BalanceHero } from '~/components/balance-hero';
 import { NavRow } from '~/components/nav-row';
+import { useTabDockClearance } from '~/components/tab-bar';
 import { Screen, SectionHeader, TabHeader } from '~/components/screen';
 import { ErrorState } from '~/components/ui/empty-state';
 import { Separator } from '~/components/ui/separator';
@@ -26,7 +26,7 @@ import { palette } from '~/lib/theme';
 
 export default function PaymentsScreen() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const dockClearance = useTabDockClearance();
   const [refreshing, setRefreshing] = useState(false);
 
   const account = useAccount();
@@ -47,13 +47,13 @@ export default function PaymentsScreen() {
     <Screen>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: insets.bottom + 28 }}
+        contentContainerStyle={{ paddingBottom: dockClearance }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor={palette.primary}
-            colors={[palette.primary]}
+            tintColor={palette.brandInk}
+            colors={[palette.brandInk]}
           />
         }>
         <TabHeader title="Pay" subtitle="Dues, assessments and fines" />
@@ -77,7 +77,7 @@ export default function PaymentsScreen() {
 
             {/* What makes up the balance */}
             {account.data.charges.length > 0 && (
-              <View className="pt-7">
+              <View className="pt-10">
                 <SectionHeader title="What you owe" />
                 <Animated.View
                   entering={FadeInDown.duration(340)}
@@ -90,7 +90,7 @@ export default function PaymentsScreen() {
                           <Ionicons
                             name={CHARGE_ICONS[charge.kind] as never}
                             size={18}
-                            color={palette.primary}
+                            color={palette.brandInk}
                           />
                         </View>
                         <View className="flex-1">
@@ -115,7 +115,7 @@ export default function PaymentsScreen() {
             )}
 
             {/* Autopay */}
-            <View className="pt-7">
+            <View className="pt-10">
               <SectionHeader title="Autopay" />
               <Animated.View
                 entering={FadeInDown.delay(60).duration(340)}
@@ -144,7 +144,7 @@ export default function PaymentsScreen() {
         ) : null}
 
         {/* Methods & history */}
-        <View className="pt-7">
+        <View className="pt-10">
           <SectionHeader title="Account" />
           <Animated.View
             entering={FadeInDown.delay(120).duration(340)}
@@ -173,7 +173,7 @@ export default function PaymentsScreen() {
 
         {/* Recent activity */}
         {recent.length > 0 && (
-          <View className="pt-7">
+          <View className="pt-10">
             <SectionHeader
               title="Recent activity"
               actionLabel="See all"

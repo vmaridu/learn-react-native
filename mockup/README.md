@@ -255,19 +255,30 @@ Cross-feature imports go through a slice's `index.ts`, never a deep path.
 
 ## Design notes
 
-- **Lime green is the only brand hue** — deep and saturated (`hsl(84 80% 33%)`), never
-  neon. It carries the balance card, primary actions, the tab pill and selection states.
-- **The ground is pure `#FFFFFF`.** Every neutral is cool (hue ~220) so nothing next to
-  the lime reads beige.
+- **Lime green is the only brand hue** — bright (`hsl(80 75% 46%)`), used as an
+  accent rather than a flooded background. It carries buttons, the active tab pill
+  and selection states, never a full-bleed panel.
+- **Text on lime is near-black, not white.** Bright lime is far too light to carry
+  white type. Anything that has to be *read* on white — links, glyphs, focused
+  borders — uses the darker `brandInk` instead; the bright lime is a fill only.
+- **The ground is pure `#FFFFFF`** and every grey is fully neutral (0% saturation).
+  The earlier blue-tinted greys were what made the white read as dirty.
+- **Space separates, not lines.** Hairlines are `#EBEBEB`, sections breathe at
+  ~40px, and list rows are plain rows with a separator rather than a box each.
 - **No hardcoded colours in components** — semantic classes only (`bg-background`,
-  `text-muted-foreground`, `border-border`). The handful of places that need a raw
-  string (gradients, SVG fills, icon tints) read named values from `src/lib/theme.ts`.
-- **Motion is on the UI thread.** Reanimated drives the tab pill, the segmented control,
-  the counting balance, the success checkmark and every press. Nothing animates through
-  React state.
-- **The mockup is locked to light** (`userInterfaceStyle: "light"`) because the brief
-  calls for a clean white ground. Dark tokens are still defined in `global.css` so a
-  future dark mode has somewhere to land.
+  `text-muted-foreground`, `border-border`). The few places needing a raw string
+  (SVG fills, icon tints, blur overlays) read named values from `src/lib/theme.ts`.
+- **Corner radius goes through `style`, never a class.** Radius applied by class
+  name silently does nothing on some composite components — that is what made the
+  balance tile and the amenity tiles render as squares.
+- **The tab bar is a floating frosted dock**, not an edge-to-edge bar: content
+  scrolls underneath it. Screens reserve room with `useTabDockClearance()`.
+- **Motion is on the UI thread.** Reanimated drives the tab pill, the segmented
+  control, the counting balance, the success checkmark and every press. Nothing
+  animates through React state.
+- **The mockup is locked to light** (`userInterfaceStyle: "light"`) because the
+  brief calls for a clean white ground. Dark tokens are still defined in
+  `global.css` so a future dark mode has somewhere to land.
 
 ## Not verified
 

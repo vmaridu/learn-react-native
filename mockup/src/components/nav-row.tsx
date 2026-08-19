@@ -42,7 +42,7 @@ export function NavRow({
         <Ionicons
           name={icon}
           size={19}
-          color={tone === 'destructive' ? palette.destructive : palette.primary}
+          color={tone === 'destructive' ? palette.destructive : palette.brandInk}
         />
       </View>
       <View className="flex-1">

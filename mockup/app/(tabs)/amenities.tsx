@@ -3,14 +3,15 @@ import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useTabDockClearance } from '~/components/tab-bar';
 import { Screen, TabHeader } from '~/components/screen';
 import { ChipRow } from '~/components/ui/chip';
 import { EmptyState, ErrorState } from '~/components/ui/empty-state';
 import { SearchInput } from '~/components/ui/input';
 import { SkeletonList } from '~/components/ui/skeleton';
 import { AmenityCard, useAmenities, useReservations, type Amenity } from '~/features/amenities';
+import { Separator } from '~/components/ui/separator';
 
 const FILTERS = [
   { value: 'all', label: 'All' },
@@ -24,7 +25,7 @@ type Filter = (typeof FILTERS)[number]['value'];
 
 export default function AmenitiesScreen() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const dockClearance = useTabDockClearance();
   const [filter, setFilter] = useState<Filter>('all');
   const [query, setQuery] = useState('');
 
@@ -101,9 +102,10 @@ export default function AmenitiesScreen() {
             data={amenities}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
+            ItemSeparatorComponent={Separator}
             contentContainerStyle={{
               paddingHorizontal: 20,
-              paddingBottom: insets.bottom + 16,
+              paddingBottom: dockClearance,
             }}
             showsVerticalScrollIndicator={false}
           />

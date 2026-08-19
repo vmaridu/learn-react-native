@@ -26,7 +26,9 @@ const textVariants = cva('text-foreground', {
     tone: {
       default: 'text-foreground',
       muted: 'text-muted-foreground',
-      primary: 'text-primary',
+      /* Brand-coloured *text*. Deliberately the dark ink, not the lime fill:
+         lime on white is ~2:1 and unreadable at body sizes. */
+      primary: 'text-accent-foreground',
       onPrimary: 'text-primary-foreground',
       destructive: 'text-destructive',
       success: 'text-success',
