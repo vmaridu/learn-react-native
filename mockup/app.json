@@ -2,6 +2,7 @@
   "expo": {
     "name": "Hamlet HQ",
     "slug": "hamlet-hq-mockup",
+    "owner": "vmaridu",
     "scheme": "hamlethq",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,7 +10,9 @@
     "userInterfaceStyle": "light",
     "backgroundColor": "#FFFFFF",
     "newArchEnabled": true,
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "app.hamlethq.mockup"
@@ -43,6 +46,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7b65de64-6894-4c79-b76e-925f9028bd22"
+      }
     }
   }
 }
