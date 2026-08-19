@@ -197,7 +197,7 @@ export default function SignInScreen() {
         <Animated.View entering={FadeInDown.delay(280).duration(420)} className="mt-10">
           <View className="rounded-3xl border border-border bg-primary-soft p-5">
             <View className="flex-row items-center gap-2">
-              <Ionicons name="flask-outline" size={16} color={palette.primary} />
+              <Ionicons name="flask-outline" size={16} color={palette.brandInk} />
               <Text variant="overline" tone="primary">
                 Demo account
               </Text>

@@ -10,6 +10,7 @@ import { Badge } from '~/components/ui/badge';
 import { ChipRow } from '~/components/ui/chip';
 import { EmptyState, ErrorState } from '~/components/ui/empty-state';
 import { SearchInput } from '~/components/ui/input';
+import { Separator } from '~/components/ui/separator';
 import { PressableScale } from '~/components/ui/pressable-scale';
 import { SkeletonList } from '~/components/ui/skeleton';
 import { Text } from '~/components/ui/text';
@@ -61,33 +62,33 @@ export default function DocumentsScreen() {
           accessibilityLabel={`${item.title}, version ${item.version}`}
           scaleTo={0.985}
           onPress={() => openDocument(item.id)}
-          className="mb-2.5 flex-row gap-3.5 rounded-3xl border border-border bg-card p-4">
-          <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft">
-            <Ionicons name="document-text" size={20} color={palette.primary} />
+          className="flex-row gap-4 py-4">
+          <View
+            style={{ width: 44, height: 44, borderRadius: 14 }}
+            className="items-center justify-center bg-primary-soft">
+            <Ionicons name="document-text-outline" size={20} color={palette.brandInk} />
           </View>
           <View className="flex-1">
             <Text variant="subheading" numberOfLines={2}>
               {item.title}
             </Text>
             <Text variant="caption" tone="muted" className="mt-1">
-              v{item.version} · {formatDate(item.updatedAt)} · {item.pages} pages
+              {item.category} · v{item.version} · {formatDate(item.updatedAt)}
             </Text>
             {excerpt ? (
               <Text variant="caption" tone="muted" numberOfLines={2} className="mt-1.5 italic">
                 {excerpt}
               </Text>
-            ) : (
-              <Text variant="caption" tone="muted" numberOfLines={2} className="mt-1.5">
-                {item.summary}
-              </Text>
+            ) : null}
+            {/* Only the state that asks something of the reader earns a badge. */}
+            {needsAck && (
+              <Badge
+                label="Signature needed"
+                tone="warning"
+                icon="create-outline"
+                className="mt-2"
+              />
             )}
-            <View className="mt-2 flex-row flex-wrap gap-1.5">
-              <Badge label={item.category} tone="neutral" />
-              {needsAck && <Badge label="Signature needed" tone="warning" icon="create-outline" />}
-              {item.requiresAck && !!item.acknowledgedAt && (
-                <Badge label="Acknowledged" tone="success" icon="checkmark-circle" />
-              )}
-            </View>
           </View>
         </PressableScale>
       );
@@ -131,6 +132,7 @@ export default function DocumentsScreen() {
             data={documents}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
+            ItemSeparatorComponent={Separator}
             contentContainerStyle={{
               paddingHorizontal: 20,
               paddingBottom: insets.bottom + 16,

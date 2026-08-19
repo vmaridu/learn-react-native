@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
 import { useRouter } from 'expo-router';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
@@ -95,11 +96,11 @@ export function TabHeader({
   return (
     <Animated.View
       entering={FadeInDown.duration(320)}
-      className="flex-row items-end justify-between gap-3 px-5 pb-4 pt-2">
+      className="flex-row items-end justify-between gap-3 px-5 pb-6 pt-3">
       <View className="flex-1">
         <Text variant="display">{title}</Text>
         {!!subtitle && (
-          <Text variant="caption" tone="muted" className="mt-1">
+          <Text variant="caption" tone="muted" className="mt-1.5">
             {subtitle}
           </Text>
         )}
@@ -116,6 +117,10 @@ export function TabHeader({
   );
 }
 
+/**
+ * A real heading rather than a micro-caps label. Uppercase eyebrow text at 11px
+ * added a third type size to every screen without adding any information.
+ */
 export function SectionHeader({
   title,
   actionLabel,
@@ -128,8 +133,8 @@ export function SectionHeader({
   className?: string;
 }) {
   return (
-    <View className={cn('flex-row items-center justify-between px-5 pb-2.5', className)}>
-      <Text variant="overline" tone="muted">
+    <View className={cn('flex-row items-end justify-between px-5 pb-3', className)}>
+      <Text variant="heading" className="text-[17px]">
         {title}
       </Text>
       {!!actionLabel && !!onAction && (
@@ -148,14 +153,35 @@ export function SectionHeader({
   );
 }
 
-/** Sticky bottom action bar used by the booking, payment and ballot flows. */
+/**
+ * Sticky bottom action bar used by the booking, payment and ballot flows.
+ *
+ * Frosted, like the tab dock, so content reads as passing underneath it rather
+ * than stopping at a hard edge. The near-opaque overlay keeps the button legible
+ * on platforms where the blur is a no-op.
+ */
 export function StickyFooter({ children }: { children: ReactNode }) {
   const insets = useSafeAreaInsets();
   return (
-    <View
-      className="border-t border-border bg-background px-5 pt-3"
-      style={{ paddingBottom: Math.max(insets.bottom, 12) }}>
-      {children}
+    <View style={{ borderTopWidth: 1, borderTopColor: palette.border }}>
+      <BlurView
+        intensity={24}
+        tint="light"
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+      />
+      <View
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255,255,255,0.9)',
+        }}
+      />
+      <View className="px-5 pt-3" style={{ paddingBottom: Math.max(insets.bottom, 12) }}>
+        {children}
+      </View>
     </View>
   );
 }

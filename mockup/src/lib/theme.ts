@@ -1,6 +1,6 @@
 /**
  * Resolved token values for the handful of places that need a raw color string
- * rather than a class name: gradients, SVG fills, vector-icon `color` props,
+ * rather than a class name: SVG fills, vector-icon `color` props, blur overlays,
  * status/navigation bars.
  *
  * These MUST stay in sync with `global.css`. Components never import raw hex —
@@ -8,35 +8,56 @@
  */
 export const palette = {
   background: '#FFFFFF',
-  foreground: '#12161F',
+  foreground: '#12151C',
   card: '#FFFFFF',
-  primary: '#4E9412',
-  primaryDeep: '#2F5809',
-  primarySoft: '#F2FBE6',
-  accent: '#DBF7B2',
-  accentForeground: '#2F5809',
-  muted: '#F5F6FA',
-  mutedForeground: '#69707F',
-  border: '#E4E7EE',
-  destructive: '#C82828',
-  destructiveSoft: '#FDF2F2',
-  success: '#22815A',
-  successSoft: '#F1FAF6',
-  warning: '#D2790D',
+
+  /** Bright lime. An accent — never a flooded background. */
+  primary: '#93CD1D',
+  /** Near-black. What sits ON lime: icons, labels, checkmarks. Never white. */
+  primaryForeground: '#1E3003',
+  /** Deeper lime, only where white has to read on top (the brand mark). */
+  primaryDeep: '#406714',
+  /** A whisper of lime — soft tiles, the balance card, selected rows. */
+  primarySoft: '#F8FCEE',
+
+  accent: '#E8F5CC',
+  accentForeground: '#2D4A0D',
+  /**
+   * Brand colour for anything that has to be *read* on a white or soft-lime
+   * surface: glyphs, links, focused borders. `primary` is a fill — at 2:1
+   * against white it is unreadable as ink, however good it looks as a button.
+   */
+  brandInk: '#2D4A0D',
+
+  muted: '#F7F7F7',
+  mutedForeground: '#6E737C',
+  border: '#EBEBEB',
+
+  destructive: '#D32222',
+  destructiveSoft: '#FDF1F1',
+  success: '#298E5F',
+  successSoft: '#F0FAF5',
+  warning: '#DD830E',
   warningSoft: '#FEF7EC',
+
   white: '#FFFFFF',
 } as const;
 
-/** Brand gradient — deep lime to mid lime. Used on hero surfaces only. */
-export const brandGradient = [palette.primaryDeep, palette.primary] as const;
-
-/** Per-amenity-category tile gradients, all lime-family so the app reads as one system. */
-export const tileGradients: Record<string, readonly [string, string]> = {
-  social: ['#3E7A0C', '#69B317'],
-  sport: ['#2F5809', '#4E9412'],
-  wellness: ['#4E9412', '#8CCB3A'],
-  outdoors: ['#345F13', '#7ABF25'],
-};
+/**
+ * Brand gradient — deliberately deeper than `palette.primary` so the white mark
+ * on top stays legible. Used by the app icon and `BrandMark` only.
+ */
+export const brandGradient = ['#2F5809', '#6FA81A'] as const;
 
 export const springConfig = { damping: 18, stiffness: 180, mass: 0.7 };
 export const softSpring = { damping: 22, stiffness: 120, mass: 0.9 };
+
+/**
+ * Vertical rhythm. Sections breathe at `sectionGap`; anything tighter starts to
+ * read as a wall of controls rather than a page.
+ */
+export const spacing = {
+  screenX: 20,
+  sectionGap: 36,
+  blockGap: 12,
+} as const;

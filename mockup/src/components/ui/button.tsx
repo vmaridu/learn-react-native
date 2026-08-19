@@ -39,10 +39,10 @@ const labelVariants = cva('font-semibold', {
       primary: 'text-primary-foreground',
       secondary: 'text-foreground',
       outline: 'text-foreground',
-      ghost: 'text-primary',
+      ghost: 'text-accent-foreground',
       accent: 'text-accent-foreground',
       destructive: 'text-destructive-foreground',
-      onBrand: 'text-primary',
+      onBrand: 'text-accent-foreground',
       onBrandOutline: 'text-primary-foreground',
     },
     size: {
@@ -56,13 +56,13 @@ const labelVariants = cva('font-semibold', {
 });
 
 const iconColors: Record<NonNullable<ButtonProps['variant']>, string> = {
-  primary: palette.white,
+  primary: palette.primaryForeground,
   secondary: palette.foreground,
   outline: palette.foreground,
-  ghost: palette.primary,
+  ghost: palette.brandInk,
   accent: palette.accentForeground,
   destructive: palette.white,
-  onBrand: palette.primary,
+  onBrand: palette.brandInk,
   onBrandOutline: palette.white,
 };
 
@@ -132,7 +132,7 @@ export function IconButton({
 }) {
   const color =
     tone === 'primary'
-      ? palette.primary
+      ? palette.brandInk
       : tone === 'muted'
         ? palette.mutedForeground
         : tone === 'onBrand'

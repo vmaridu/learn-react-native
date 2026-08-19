@@ -1,17 +1,20 @@
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { View } from 'react-native';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 
 import { formatDate } from '~/lib/format';
-import { brandGradient, palette } from '~/lib/theme';
 import { AnimatedCounter } from './ui/animated-counter';
 import { Button } from './ui/button';
+import { PressableScale } from './ui/pressable-scale';
 import { Text } from './ui/text';
 
 /**
- * The card that answers "what do I owe" before the member asks. The figure
- * counts up on mount; everything else fades in behind it.
+ * The card that answers "what do I owe" before the member asks.
+ *
+ * A soft lime wash rather than a flooded green block — at this size a saturated
+ * fill dominates the whole screen and makes everything below it feel secondary.
+ * The lime lives in the button instead, where it means "press me".
+ *
+ * `borderRadius` is set through `style` on purpose. See `AmenityTile`.
  */
 export function BalanceHero({
   balanceCents,
@@ -32,60 +35,56 @@ export function BalanceHero({
 
   return (
     <Animated.View entering={FadeInDown.duration(400)} className="px-5">
-      <LinearGradient
-        colors={[brandGradient[0], brandGradient[1]]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        className="overflow-hidden rounded-[28px] p-5">
+      <View style={{ borderRadius: 28 }} className="bg-primary-soft px-6 py-7">
         <View className="flex-row items-center justify-between">
-          <Text variant="overline" className="text-primary-foreground/80">
+          <Text variant="caption" tone="muted">
             Account balance
           </Text>
           {autopayEnabled && (
-            <View className="flex-row items-center gap-1 rounded-full bg-white/20 px-2.5 py-1">
-              <Ionicons name="repeat" size={12} color={palette.white} />
-              <Text className="text-[11px] font-semibold text-primary-foreground">
-                Autopay on
-              </Text>
-            </View>
+            <Text variant="caption" tone="muted">
+              Autopay on
+            </Text>
           )}
         </View>
 
         <AnimatedCounter
           valueCents={balanceCents}
-          accessibilityLabel={`Account balance`}
-          className="mt-2 font-bold text-primary-foreground"
-          style={{ fontSize: 44, lineHeight: 52, letterSpacing: -1.5 }}
+          accessibilityLabel="Account balance"
+          className="mt-2 font-bold text-foreground"
+          style={{ fontSize: 42, lineHeight: 50, letterSpacing: -1.6 }}
         />
 
         <Animated.View entering={FadeIn.delay(500).duration(400)}>
-          {settled ? (
-            <Text variant="caption" className="mt-1 text-primary-foreground/80">
-              You are all settled up. Nothing is due.
-            </Text>
-          ) : (
-            <Text variant="caption" className="mt-1 text-primary-foreground/80">
-              {pastDueCents > 0
+          <Text variant="caption" tone={pastDueCents > 0 ? 'destructive' : 'muted'} className="mt-1">
+            {settled
+              ? 'All settled up'
+              : pastDueCents > 0
                 ? 'Part of this balance is past due'
                 : nextDueDate
-                  ? `Next due ${formatDate(nextDueDate)}`
+                  ? `Due ${formatDate(nextDueDate)}`
                   : 'Due on the first of the month'}
-            </Text>
-          )}
+          </Text>
         </Animated.View>
 
-        <View className="mt-5 flex-row gap-2">
+        <View className="mt-6 flex-row items-center gap-5">
           <Button
             label={settled ? 'View statement' : 'Pay now'}
-            variant="onBrand"
-            className="flex-1"
             onPress={settled ? onDetails : onPay}
           />
           {!settled && (
-            <Button label="Details" variant="onBrandOutline" className="flex-1" onPress={onDetails} />
+            <PressableScale
+              accessibilityRole="button"
+              accessibilityLabel="Balance details"
+              hitSlop={10}
+              scaleTo={0.95}
+              onPress={onDetails}>
+              <Text variant="subheading" tone="muted">
+                Details
+              </Text>
+            </PressableScale>
           )}
         </View>
-      </LinearGradient>
+      </View>
     </Animated.View>
   );
 }

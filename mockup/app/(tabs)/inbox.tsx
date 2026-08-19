@@ -3,8 +3,8 @@ import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useTabDockClearance } from '~/components/tab-bar';
 import { Screen, TabHeader } from '~/components/screen';
 import { EmptyState, ErrorState } from '~/components/ui/empty-state';
 import { SearchInput } from '~/components/ui/input';
@@ -27,7 +27,7 @@ const TABS = [
 
 export default function InboxScreen() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const dockClearance = useTabDockClearance();
   const [filter, setFilter] = useState<InboxFilter>('all');
   const [query, setQuery] = useState('');
 
@@ -91,7 +91,7 @@ export default function InboxScreen() {
             keyExtractor={keyExtractor}
             contentContainerStyle={{
               paddingHorizontal: 20,
-              paddingBottom: insets.bottom + 16,
+              paddingBottom: dockClearance,
             }}
             showsVerticalScrollIndicator={false}
           />

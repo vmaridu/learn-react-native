@@ -36,7 +36,7 @@ export default function ArcRequestsScreen() {
           onPress={() => openRequest(item.id)}
           className="mb-2.5 flex-row gap-3.5 rounded-3xl border border-border bg-card p-4">
           <View className="h-11 w-11 items-center justify-center rounded-2xl bg-primary-soft">
-            <Ionicons name="hammer" size={19} color={palette.primary} />
+            <Ionicons name="hammer" size={19} color={palette.brandInk} />
           </View>
           <View className="flex-1">
             <Text variant="subheading" numberOfLines={2}>

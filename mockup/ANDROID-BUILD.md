@@ -76,6 +76,44 @@ APK:
 }
 ```
 
+#### The first build stops early. That is expected.
+
+The `preview` and `production` profiles set a `channel`, which means their builds can
+receive over-the-air updates. The first time you build, the CLI notices `expo-updates`
+is missing, installs it, writes the updates config, and then stops:
+
+```
+✔ Configured runtimeVersion for Android and iOS with "{"policy":"appVersion"}"
+✔ Installed expo-updates and configured EAS Update.
+Command must be re-run to pick up new updates configuration.
+    Error: build command failed.
+```
+
+**This is a one-time setup step, not a broken build.** Run the same command again and it
+goes through:
+
+```bash
+eas build --platform android --profile preview
+```
+
+Commit what it changed — `expo-updates` in `package.json`, and `runtimeVersion`,
+`updates.url` and `extra.eas.projectId` in `app.json`:
+
+```bash
+git add app.json package.json package-lock.json
+git commit -m "Configure EAS Update for Android builds"
+```
+
+Those values are tied to your Expo account, which is why they are not committed here
+already.
+
+#### If you would rather not have OTA updates at all
+
+Delete the `"channel"` lines from `preview` and `production` in `eas.json`. Builds then
+skip the `expo-updates` setup entirely and never hit the re-run step. You lose the
+ability to push JS-only changes to installed testers with `eas update` — for a mockup
+that gets passed around, that is usually worth keeping.
+
 ### Step 5. Install it
 
 When the build finishes the CLI prints a build page URL and a QR code.
@@ -112,6 +150,31 @@ To watch or re-download past builds:
 eas build:list --platform android
 eas build:view          # opens the most recent build
 ```
+
+### Pushing changes without rebuilding
+
+Because the `preview` profile is on an update channel, JS-only changes — screens, copy,
+styling, mock data — can go out to already-installed testers in seconds:
+
+```bash
+eas update --branch preview --message "Tweaked the booking flow"
+```
+
+They pick it up on the next app launch. No new APK, no reinstall.
+
+You still need a **new build** when you change anything native: adding or removing a
+package with native code, or editing `app.json` (name, icon, package, splash,
+permissions, plugins).
+
+One catch: `runtimeVersion` uses the `appVersion` policy, so an update only reaches
+builds with a matching `expo.version`. Bump `expo.version` and existing installs stop
+receiving updates until you ship them a new APK. Leave it alone while you are iterating.
+
+A second catch worth knowing before you rely on this: a published update is **downloaded**
+on the next cold start and **applied** on the one after that, so testers are always one
+launch behind unless you add code to check and reload.
+[Over-the-air updates](../docs/03-production/08-over-the-air-updates.md) covers that,
+plus how to force an update and how to gate on a minimum native version.
 
 ---
 
@@ -212,6 +275,7 @@ An `.aab` cannot be installed on a phone directly — that is what `preview` is 
 
 | Symptom | Cause | Fix |
 |---|---|---|
+| `Installed expo-updates and configured EAS Update. Command must be re-run` | One-time EAS Update setup on the first build | Not a failure — run the same `eas build` command again, then commit the `app.json` / `package.json` changes |
 | Downloaded file will not install | You built an `.aab`, not an `.apk` | Use `--profile preview`; check `eas.json` has `"buildType": "apk"` |
 | "App not installed" | An existing copy has the same package but a different signature | Uninstall `app.hamlethq.mockup` first, then reinstall |
 | "Install blocked" / "unknown apps" | Sideloading not permitted yet | Settings → Apps → Special app access → Install unknown apps → allow for your browser or file manager |

@@ -51,7 +51,7 @@ export default function ElectionsScreen() {
               <Ionicons
                 name={item.status === 'closed' ? 'bar-chart' : 'checkbox'}
                 size={20}
-                color={needsVote ? palette.white : palette.mutedForeground}
+                color={needsVote ? palette.primaryForeground : palette.mutedForeground}
               />
             </View>
             <View className="flex-1">

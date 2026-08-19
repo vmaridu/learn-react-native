@@ -179,7 +179,7 @@ export default function MessageScreen() {
                 className={`h-12 w-12 items-center justify-center rounded-full bg-primary ${
                   !draft.trim() || reply.isPending ? 'opacity-40' : ''
                 }`}>
-                <Ionicons name="arrow-up" size={20} color={palette.white} />
+                <Ionicons name="arrow-up" size={20} color={palette.primaryForeground} />
               </PressableScale>
             </View>
           </StickyFooter>

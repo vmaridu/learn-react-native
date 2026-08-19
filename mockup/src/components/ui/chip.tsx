@@ -36,7 +36,7 @@ export function Chip({
         <Ionicons
           name={icon}
           size={14}
-          color={selected ? palette.white : palette.mutedForeground}
+          color={selected ? palette.primaryForeground : palette.mutedForeground}
         />
       )}
       <Text

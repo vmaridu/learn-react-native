@@ -128,13 +128,13 @@ export default function CheckoutScreen() {
                       className={`h-6 w-6 items-center justify-center rounded-lg border-2 ${
                         checked ? 'border-primary bg-primary' : 'border-border bg-background'
                       }`}>
-                      {checked && <Ionicons name="checkmark" size={14} color={palette.white} />}
+                      {checked && <Ionicons name="checkmark" size={14} color={palette.primaryForeground} />}
                     </View>
                     <View className="h-9 w-9 items-center justify-center rounded-xl bg-primary-soft">
                       <Ionicons
                         name={CHARGE_ICONS[charge.kind] as never}
                         size={16}
-                        color={palette.primary}
+                        color={palette.brandInk}
                       />
                     </View>
                     <View className="flex-1">
@@ -180,7 +180,7 @@ export default function CheckoutScreen() {
                     <Ionicons
                       name={method.kind === 'card' ? 'card-outline' : 'business-outline'}
                       size={19}
-                      color={active ? palette.primary : palette.mutedForeground}
+                      color={active ? palette.brandInk : palette.mutedForeground}
                     />
                   </View>
                   <View className="flex-1">

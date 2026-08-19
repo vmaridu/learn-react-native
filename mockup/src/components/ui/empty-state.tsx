@@ -22,7 +22,7 @@ export function EmptyState({
   return (
     <Animated.View entering={FadeIn.duration(220)} className="items-center px-8 py-14">
       <View className="h-16 w-16 items-center justify-center rounded-3xl bg-primary-soft">
-        <Ionicons name={icon} size={28} color={palette.primary} />
+        <Ionicons name={icon} size={28} color={palette.brandInk} />
       </View>
       <Text variant="heading" className="mt-4 text-center">
         {title}

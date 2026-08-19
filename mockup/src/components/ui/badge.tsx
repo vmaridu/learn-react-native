@@ -37,7 +37,7 @@ const badgeIcon: Record<NonNullable<BadgeProps['tone']>, string> = {
   success: palette.success,
   warning: palette.warning,
   destructive: palette.destructive,
-  solid: palette.white,
+  solid: palette.primaryForeground,
   onBrand: palette.white,
 };
 

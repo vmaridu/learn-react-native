@@ -304,7 +304,7 @@ export default function AmenityDetailScreen() {
                   className={`h-10 w-10 items-center justify-center rounded-full bg-primary ${
                     guests >= a.rules.guestsAllowed ? 'opacity-40' : ''
                   }`}>
-                  <Ionicons name="add" size={18} color={palette.white} />
+                  <Ionicons name="add" size={18} color={palette.primaryForeground} />
                 </PressableScale>
               </View>
             </View>
@@ -461,7 +461,7 @@ function RuleRow({
   return (
     <View className="flex-row items-center gap-3">
       <View className="h-9 w-9 items-center justify-center rounded-xl bg-primary-soft">
-        <Ionicons name={icon} size={16} color={palette.primary} />
+        <Ionicons name={icon} size={16} color={palette.brandInk} />
       </View>
       <Text variant="body" className="flex-1">
         {label}

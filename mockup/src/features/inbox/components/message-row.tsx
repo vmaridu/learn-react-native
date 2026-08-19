@@ -61,7 +61,7 @@ export const MessageRow = memo(function MessageRow({
 
         {message.replies.length > 0 && (
           <View className="mt-2 flex-row items-center gap-1">
-            <Ionicons name="return-down-forward" size={12} color={palette.primary} />
+            <Ionicons name="return-down-forward" size={12} color={palette.brandInk} />
             <Text variant="caption" tone="primary">
               {message.replies.length}{' '}
               {message.replies.length === 1 ? 'reply' : 'replies'}

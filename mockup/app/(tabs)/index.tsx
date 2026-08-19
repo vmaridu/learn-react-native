@@ -3,27 +3,26 @@ import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AttentionCard, type AttentionItem } from '~/components/attention-card';
 import { BalanceHero } from '~/components/balance-hero';
 import { QuickActions, type QuickAction } from '~/components/quick-actions';
 import { Screen, SectionHeader } from '~/components/screen';
+import { useTabDockClearance } from '~/components/tab-bar';
 import { Avatar } from '~/components/ui/avatar';
-import { Badge } from '~/components/ui/badge';
 import { PressableScale } from '~/components/ui/pressable-scale';
+import { Separator } from '~/components/ui/separator';
 import { Skeleton } from '~/components/ui/skeleton';
 import { Text } from '~/components/ui/text';
-import { useMember } from '~/features/auth';
 import { useReservations } from '~/features/amenities';
-import { useViolations, cureLabel } from '~/features/compliance';
-import { useDocuments, pendingAcknowledgments } from '~/features/documents';
-import { useElections, closingLabel } from '~/features/elections';
+import { useMember } from '~/features/auth';
+import { cureLabel, useViolations } from '~/features/compliance';
+import { pendingAcknowledgments, useDocuments } from '~/features/documents';
+import { closingLabel, useElections } from '~/features/elections';
 import { useMessages } from '~/features/inbox';
 import { useAccount } from '~/features/payments';
 import { formatCents, formatDate, formatRelative, formatTimeRange } from '~/lib/format';
 import { palette } from '~/lib/theme';
-import { community } from '~/mock/db';
 
 function greeting(now: Date = new Date()): string {
   const hour = now.getHours();
@@ -32,9 +31,14 @@ function greeting(now: Date = new Date()): string {
   return 'Good evening';
 }
 
+/**
+ * Home is the one screen everybody sees every time, so it is the one that has to
+ * stay quiet. It answers three questions in order — what do I owe, what needs me,
+ * what changed — and nothing else competes for the space.
+ */
 export default function HomeScreen() {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const dockClearance = useTabDockClearance();
   const [refreshing, setRefreshing] = useState(false);
 
   const member = useMember();
@@ -60,6 +64,8 @@ export default function HomeScreen() {
     setRefreshing(false);
   }, [account, documents, elections, messages, reservations, violations]);
 
+  // Four, not five. Pay lives on the balance card and Vote surfaces itself under
+  // "Needs you" when a ballot is actually open; both are also in More.
   const quickActions: QuickAction[] = useMemo(
     () => [
       {
@@ -77,7 +83,7 @@ export default function HomeScreen() {
       {
         key: 'ai',
         icon: 'sparkles-outline',
-        label: 'Ask AI',
+        label: 'Ask',
         onPress: () => router.push('/assistant'),
       },
       {
@@ -85,12 +91,6 @@ export default function HomeScreen() {
         icon: 'megaphone-outline',
         label: 'Report',
         onPress: () => router.push('/requests/new'),
-      },
-      {
-        key: 'vote',
-        icon: 'checkbox-outline',
-        label: 'Vote',
-        onPress: () => router.push('/elections'),
       },
     ],
     [router],
@@ -107,7 +107,7 @@ export default function HomeScreen() {
         key: `violation-${openViolation.id}`,
         icon: 'warning-outline',
         title: openViolation.title,
-        detail: `${openViolation.reference} · ${cureLabel(openViolation.cureByDate)}${
+        detail: `${cureLabel(openViolation.cureByDate)}${
           openViolation.fineCents > 0 && !openViolation.finePaid
             ? ` · ${formatCents(openViolation.fineCents)} fine`
             : ''
@@ -125,7 +125,7 @@ export default function HomeScreen() {
           key: `election-${election.id}`,
           icon: 'checkbox-outline',
           title: election.title,
-          detail: `Your ballot is open · ${closingLabel(election)}`,
+          detail: `Ballot open · ${closingLabel(election)}`,
           cta: 'Vote',
           tone: 'primary',
           onPress: () => router.push(`/elections/${election.id}`),
@@ -136,7 +136,7 @@ export default function HomeScreen() {
       items.push({
         key: `doc-${doc.id}`,
         icon: 'create-outline',
-        title: `Acknowledge ${doc.title}`,
+        title: doc.title,
         detail: `Version ${doc.version} needs your signature`,
         cta: 'Sign',
         tone: 'primary',
@@ -151,29 +151,26 @@ export default function HomeScreen() {
     (r) => r.status === 'confirmed' && r.date >= new Date().toISOString().slice(0, 10),
   );
 
-  // Capped at two so this stays a preview, not a list — nesting a virtualised
-  // list inside a ScrollView is the worse trade here.
-  const latestAnnouncements = (messages.data ?? [])
-    .filter((m) => m.kind === 'announcement')
-    .slice(0, 2);
+  // One, not two. This is a pointer to the inbox, not a second inbox.
+  const latestAnnouncement = (messages.data ?? []).find((m) => m.kind === 'announcement');
 
   return (
     <Screen>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: insets.bottom + 28 }}
+        contentContainerStyle={{ paddingBottom: dockClearance }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor={palette.primary}
-            colors={[palette.primary]}
+            tintColor={palette.brandInk}
+            colors={[palette.brandInk]}
           />
         }>
         {/* Greeting */}
         <Animated.View
           entering={FadeInDown.duration(360)}
-          className="flex-row items-center gap-3 px-5 pb-5 pt-2">
+          className="flex-row items-center gap-3.5 px-5 pb-7 pt-3">
           <PressableScale
             accessibilityRole="button"
             accessibilityLabel="Your profile"
@@ -196,13 +193,13 @@ export default function HomeScreen() {
           <PressableScale
             accessibilityRole="button"
             accessibilityLabel={unread > 0 ? `Inbox, ${unread} unread` : 'Inbox'}
-            hitSlop={10}
+            hitSlop={12}
             scaleTo={0.88}
             onPress={() => router.push('/(tabs)/inbox')}
-            className="h-11 w-11 items-center justify-center rounded-full border border-border">
-            <Ionicons name="notifications-outline" size={20} color={palette.foreground} />
+            className="h-10 w-10 items-center justify-center">
+            <Ionicons name="notifications-outline" size={22} color={palette.foreground} />
             {unread > 0 && (
-              <View className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border border-background bg-destructive" />
+              <View className="absolute right-1 top-1 h-2.5 w-2.5 rounded-full border border-background bg-destructive" />
             )}
           </PressableScale>
         </Animated.View>
@@ -210,7 +207,7 @@ export default function HomeScreen() {
         {/* Balance */}
         {account.isPending ? (
           <View className="px-5">
-            <Skeleton className="h-[196px] rounded-[28px]" />
+            <Skeleton className="h-[190px] rounded-[28px]" />
           </View>
         ) : account.data ? (
           <BalanceHero
@@ -223,18 +220,21 @@ export default function HomeScreen() {
           />
         ) : null}
 
-        {/* Quick actions */}
-        <View className="pt-5">
+        {/* Shortcuts */}
+        <View className="pt-7">
           <QuickActions actions={quickActions} />
         </View>
 
-        {/* Needs attention */}
+        {/* Needs you */}
         {attention.length > 0 && (
-          <View className="pt-7">
-            <SectionHeader title={`Needs you · ${attention.length}`} />
+          <View className="pt-10">
+            <SectionHeader title="Needs you" />
             <View className="px-5">
               {attention.map((item, index) => (
-                <AttentionCard key={item.key} item={item} index={index} />
+                <View key={item.key}>
+                  {index > 0 && <Separator />}
+                  <AttentionCard item={item} index={index} />
+                </View>
               ))}
             </View>
           </View>
@@ -242,9 +242,9 @@ export default function HomeScreen() {
 
         {/* Next reservation */}
         {!!nextReservation && (
-          <View className="pt-5">
+          <View className="pt-10">
             <SectionHeader
-              title="Next reservation"
+              title="Coming up"
               actionLabel="All bookings"
               onAction={() => router.push('/reservations')}
             />
@@ -256,12 +256,14 @@ export default function HomeScreen() {
                 )}`}
                 scaleTo={0.985}
                 onPress={() => router.push(`/amenity/${nextReservation.amenityId}`)}
-                className="flex-row items-center gap-4 rounded-3xl border border-border bg-card p-4">
-                <View className="h-12 w-12 items-center justify-center rounded-2xl bg-primary-soft">
+                className="flex-row items-center gap-4 py-1">
+                <View
+                  style={{ width: 52, height: 52, borderRadius: 18 }}
+                  className="items-center justify-center bg-primary-soft">
                   <Ionicons
                     name={nextReservation.amenity.icon as never}
                     size={22}
-                    color={palette.primary}
+                    color={palette.brandInk}
                   />
                 </View>
                 <View className="flex-1">
@@ -273,63 +275,45 @@ export default function HomeScreen() {
                     {formatTimeRange(nextReservation.start, nextReservation.minutes)}
                   </Text>
                 </View>
-                <Badge label="Confirmed" tone="success" icon="checkmark-circle" />
+                <Ionicons name="chevron-forward" size={16} color={palette.mutedForeground} />
               </PressableScale>
             </Animated.View>
           </View>
         )}
 
-        {/* Community */}
-        {latestAnnouncements.length > 0 && (
-          <View className="pt-7">
+        {/* From the board */}
+        {!!latestAnnouncement && (
+          <View className="pt-10">
             <SectionHeader
               title="From the board"
-              actionLabel="Open inbox"
+              actionLabel="Inbox"
               onAction={() => router.push('/(tabs)/inbox')}
             />
-            <View className="gap-2.5 px-5">
-              {latestAnnouncements.map((message, index) => (
-                <Animated.View
-                  key={message.id}
-                  entering={FadeInDown.delay(index * 70).duration(340)}>
-                  <PressableScale
-                    accessibilityRole="button"
-                    accessibilityLabel={message.subject}
-                    scaleTo={0.985}
-                    onPress={() => router.push(`/message/${message.id}`)}
-                    className="rounded-3xl border border-border bg-card p-4">
-                    <View className="flex-row items-center gap-2">
-                      {!message.read && <View className="h-2 w-2 rounded-full bg-primary" />}
-                      <Text variant="caption" tone="muted" className="flex-1">
-                        {message.fromRole} · {formatRelative(message.sentAt)}
-                      </Text>
-                      {message.pinned && (
-                        <Ionicons name="pin" size={13} color={palette.mutedForeground} />
-                      )}
-                    </View>
-                    <Text variant="subheading" numberOfLines={2} className="mt-1.5">
-                      {message.subject}
-                    </Text>
-                    <Text variant="caption" tone="muted" numberOfLines={2} className="mt-1">
-                      {message.body.replace(/\s+/g, ' ')}
-                    </Text>
-                  </PressableScale>
-                </Animated.View>
-              ))}
-            </View>
+            <Animated.View entering={FadeInDown.duration(340)} className="px-5">
+              <PressableScale
+                accessibilityRole="button"
+                accessibilityLabel={latestAnnouncement.subject}
+                scaleTo={0.985}
+                onPress={() => router.push(`/message/${latestAnnouncement.id}`)}
+                className="py-1">
+                <View className="flex-row items-center gap-2">
+                  {!latestAnnouncement.read && (
+                    <View className="h-1.5 w-1.5 rounded-full bg-primary" />
+                  )}
+                  <Text variant="caption" tone="muted">
+                    {formatRelative(latestAnnouncement.sentAt)}
+                  </Text>
+                </View>
+                <Text variant="subheading" numberOfLines={2} className="mt-1.5">
+                  {latestAnnouncement.subject}
+                </Text>
+                <Text variant="caption" tone="muted" numberOfLines={2} className="mt-1.5">
+                  {latestAnnouncement.body.replace(/\s+/g, ' ')}
+                </Text>
+              </PressableScale>
+            </Animated.View>
           </View>
         )}
-
-        <Animated.View
-          entering={FadeInDown.delay(160).duration(360)}
-          className="mt-8 items-center px-8">
-          <Text variant="caption" tone="muted" className="text-center">
-            {community.name} · {community.units} units
-          </Text>
-          <Text variant="caption" tone="muted" className="mt-0.5 text-center">
-            Managed by {community.managerName}
-          </Text>
-        </Animated.View>
       </ScrollView>
     </Screen>
   );
