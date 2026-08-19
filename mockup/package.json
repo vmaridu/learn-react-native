@@ -13,7 +13,9 @@
     "test": "jest --passWithNoTests",
     "verify": "npm run typecheck && npm run lint && npm run test",
     "prebuild": "expo prebuild --clean",
-    "apk": "eas build --platform android --profile preview"
+    "apk": "eas build --platform android --profile preview",
+    "ipa": "eas build --platform ios --profile preview",
+    "ios:simulator": "eas build --platform ios --profile preview-simulator"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
