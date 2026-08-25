@@ -17,7 +17,6 @@ Studio, no SDK, no JDK — and it manages the signing keystore for you.
 > but it takes two minutes. See the [README](./README.md#option-a--expo-go-fastest-2-minutes-no-build).
 
 ---
-
 ## Before either route
 
 ```bash
